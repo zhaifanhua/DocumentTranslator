@@ -1,0 +1,40 @@
+0
+## 🍟 Overview
+2
+- This project is suitable for developers with a certain foundation in NetCore and vue
+3
+- A general permission management platform (RBAC mode) based on .NET5/.NET7. Integrate the latest technology for efficient and rapid development, front-end and back-end separation mode, ready to use out of the box.
+4
+- Small amount of code, simple learning, easy to understand, powerful, easy to expand, lightweight, making web development faster, simpler and more efficient (say goodbye to 996), solving 70% of repetitive work, focusing on your business, and starting easy development from now on!
+5
+- Provides a technology stack (Ant Design Vue) version [Ant Design Vue](https://gitee.com/billzh/mc-dull.git)
+6
+- Qiniu Cloud General Cloud Product Coupon: [Click me to enter](https://s.qiniu.com/FzEfay).
+7
+- Tencent Cloud Flash Sale: [☛☛ Click me to enter ☚☚](https://curl.qcloud.com/4yEoRquq).
+8
+- Tencent Cloud Coupon: [☛☛ Click me to receive ☚☚](https://curl.qcloud.com/5J4nag8D).
+9
+- Alibaba Cloud Special Offer: [☛☛ Click me to enter ☚☚](https://www.aliyun.com/minisite/goods?userCode=uotn5vt1&share_source=copy_link)
+26
+If it is helpful to you, you can click "Star" in the upper right corner to save it, thank you! ~
+29
+## 📈 Quick Start
+31
+- Quick Start: [https://www.izhaorui.cn/doc/quickstart.html](https://www.izhaorui.cn/doc/quickstart.html)
+33
+## 🍿 Online Experience
+35
+- Official Documentation: http://www.izhaorui.cn/doc
+36
+- Join Group Chat: [Join Now](http://www.izhaorui.cn/doc/contact.html)
+37
+- Vue3.x Version Experience: [http://demo.izhaorui.cn/vue3](http://demo.izhaorui.cn/vue3)
+38
+- Vue2.x Version Experience: [http://demo.izhaorui.cn/admin](http://demo.izhaorui.cn/admin)
+39
+- Uniapp Version experience (vue2): [http://demo.izhaorui.cn/h5](http://demo.izhaorui.cn/h5)
+40
+- Uniapp version experience (vue3): [http://demo.izhaorui.cn/uplus](http://demo.izhaorui.cn/uplus)
+41
+- Account password: admin/123456, ordinary user user/123456
