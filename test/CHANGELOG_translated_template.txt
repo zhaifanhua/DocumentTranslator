@@ -1,0 +1,308 @@
+597
+- Update Nuxt to 2.8
+598
+- Update dependencies
+599
+- Update the api in the store to maintain a balance between coupling and abstraction
+600
+- Update ad slot links
+601
+- Optimize comment-related copy
+602
+- Optimize file organization
+603
+- Abandon the design of isomorphic enumeration constants
+604
+- Abandon custom webpack loader
+608
+- Update documentation
+609
+- Optimize the homepage Banner carousel: no longer support drag and scroll under PC, support direct click of images under H5
+610
+- Optimize the mobile presentation of the announcement module
+614
+- Fix the article page switching stuck bug
+615
+- Upgrade the PC sidebar ad slot to Alimama
+619
+- Optimize the ad slot class to prevent being blocked
+620
+- Update ads
+621
+- Update App Download page related content
+622
+- Add Banner ads
+623
+- Remove useless files
+627
+- Upgrade dependencies
+628
+- Optimize wallpaper business
+629
+- Optimize pop-up style details
+630
+- Correct copywriting
+631
+- Correct player fault tolerance
+635
+- Add lazy loading function (temporarily used for article details page and vlog list page)
+636
+- Fix the problem that marked does not support Chinese id
+637
+- Fix wallpaper humanizeUrl problem
+638
+- Fix the problem that lazy loading elements in the comment list do not take effect
+642
+- Upgrade Nuxt to 2.4.0
+643
+- Optimize module
+644
+- Add search keyword association
+645
+- Add new icon easter egg
+649
+- Optimize Store design
+650
+- Optimize Comment business module logic
+651
+- Optimize Coding style
+652
+- Optimize markdown parser
+653
+- Optimize structure organization
+654
+- Optimize the performance of category and tag under i18n
+655
+- Optimize Swiper defects under SPA
+656
+- Add Vlog business module
+657
+- Add skeleton screen instead of loading
+661
+- Optimize isomorphic constant logic
+662
+- Optimize advertising rendering and details
+663
+- Optimize mouse display effect
+664
+- Optimize copywriting details
+665
+- Upgrade Update Nuxt to 2
+666
+- Abandon some redundant plug-ins
+667
+- Standardize coding style
+668
+- Add wallpaper function
+669
+- Optimize forward proxy service during development
+670
+- Optimize component structure
+671
+- Re-abstract some methods
+672
+- Add buried data
+673
+- Update color matching details and specifications
+674
+- Add lyrics function
+675
+- Optimize layout details
+679
+- Fix APP download address
+680
+- Update service page copy
+681
+- Optimize menu button
+682
+- Update iconfont icon
+688
+- Fix typos in comment copy
+689
+- Add Logo light and shadow effects
+690
+- Add Header water ripples
+694
+- Optimize Most background layers are updated to gradient design
+698
+- Update iconfont
+699
+- Update copy details and geographic map
+700
+- Optimize description analysis in site map
+701
+- Optimize Temporarily turn off background animation
+705
+- Update copy
+706
+- Add friendly links
+707
+- Add "Socialist Core Values" function
+711
+- Improve the problem that theme variables are invalid and cannot be previewed in development mode
+712
+- Add performance mode switch, low-profile mode, turn off background animation, disable or delete rtc, turn off autoplay
+713
+- The loading cycle of the face recognition library is delayed when the WebRtc beauty switch is turned on
+714
+- Add source type marks (reprinted, original, mixed) to the article list and detail page
+715
+- Use the self-developed i18n module to complete the i18n adaptation
+719
+- The location of the app download button, the background color of the download button is changed to the module background color semi-transparent, the file cannot be placed on the server, it is too slow, and the mobile download page needs to be adapted
+721
+- Fixed the player
+722
+- Upgraded Nuxt, and used offline-plugin to implement offline applications
+723
+- Added bullet screen function
+724
+- Optimized widescreen reading function
+725
+- Optimized the player
+726
+- Optimized the mobile style
+727
+- Comment 233333 Try it
+728
+- Optimize package dependency issues
+729
+- Add online video function based on WebRTC
+730
+- Add C++ version of TURN Server
+731
+- Add face recognition function
+732
+- Add a function called beauty
+733
+- Optimize the initialization of asynchronous task management
+734
+- Optimize code inspection
+735
+- Optimize some code details
+736
+- Optimize the player
+737
+- The shared clipboard needs to be refactored to remove the library https://surmon.me/article/80
+738
+- Add ads on the right
+739
+- PWA adaptation https://pwa.nuxtjs.org/modules/workbox.html
+740
+- Add multiple theme adaptation
+744
+- Add garbage collection program (idle-gc) to solve the memory overflow problem
+745
+- Add Baidu automatic push function
+746
+- Fix the problem caused by Duoshuo Https processing Bug
+747
+- The default article thumbnail needs to be designed as a <> icon
+749
+- The slideshow needs to have a designed default thumbnail
+750
+- The article list images need to be coordinated with the Qiniu client settings
+751
+- The related article images are too large, so adjust one row to 5
+752
+- Cancel asynchronous loading of the slideshow?
+753
+- Articles on the article page list will wrap if they are too long
+754
+- Article views statistics index
+755
+- Display the total number of query results in the list head
+756
+- Tags include article statistics index
+757
+- Search function
+758
+- Article details require a filter to generate Tag internal links
+759
+- The site map page (used for user navigation) can fold and expand article descriptions, tags, and categories. By default, only 100 articles are displayed, and the rest can be expanded and beautified by clicking
+760
+- Each page hides the generated comment data for SEO
+761
+- A message-box component is used for error handling, and multiple texts are merged into json and displayed randomly
+762
+- Zhihu Weibo for about page
+763
+- Add Zhihu links to the sidebar
+764
+- Whether multiple list pages are combined into one component
+765
+- Article details page, related articles on the details page, details page components and data integration, code highlighting plug-in
+766
+- Keywords and descriptions on the article details page fail to cover head
+767
+- Duoshuo function needs to be integrated and effective
+768
+- The interface of popular articles needs to be integrated with Duoshuo
+769
+- README improvement
+770
+- vue2 has a bug
+771
+- vue-meta\_\_dangerouslyDisableSanitizers has a bug
+772
+- google statistics code
+773
+- Automatic deployment on the line
+774
+- Full site https
+775
+- A site map needs to generate an xml page
+776
+- Routing meta information needs to be defined (implemented by the 1.0 version of the middleware)
+777
+- Time and date clipping cannot be determined by the number of words
+778
+- The title of the article page is too small, and the code highlighting plug-in cancels the title
+779
+- Article comment callback
+780
+- Code highlighting In the part parsed by the highlighting plug-in (jsdom + marked), find the class of code and give lang to pre
+781
+- Smooth scrolling is required when scrolling
+782
+- Most https
+783
+- Synchronize articles to Duoshuo
+784
+- Add personal information to the console
+785
+- Images should have a hover gradient effect
+786
+- Images can be parsed when tags are parsed, and events can be bound to images, resulting in image pop-ups
+787
+- When the style of related articles is less than one line, it needs to be optimized
+788
+- Introducing the signature agreement in the article, based on the original
+789
+- The time is not displayed on the article list page
+790
+- Time field update
+791
+- When creating a relationship between tags and articles, first connect all a, set a new window to open, and nofollow, the tag array must be sorted first, and the one with more characters is first
+792
+- Creating relationships is also implemented through marked, no longer relying on the cheerio library
+793
+- Code highlighting through marked Implement line number and positioning effect
+794
+- Add and fix the right-click automatic copyright function
+795
+- error.vue does not support custom layout, 1.0 improvement
+796
+- Reverse proxy needs to make domain name judgment
+797
+- Add comment function
+798
+- Add mobile device adaptation
+800
+- Implementation of music player
+801
+- Email sharing has bugs
+802
+- Add linked to me
+803
+- Add app download page
