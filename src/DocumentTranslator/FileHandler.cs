@@ -48,8 +48,7 @@ public class FileHandler
     public string ReadSourceFile()
     {
         string text = File.ReadAllText(_sourceFilePath);
-        string[] sourceLines = text.Split(Environment.NewLine);
-
+        string[] sourceLines = GetFileSplitLines(text);
         // 记录行号和行内容
         var sourceChineseLines = new Dictionary<int, string>();
         for (int i = 0; i < sourceLines.Length; i++)
@@ -92,7 +91,7 @@ public class FileHandler
     public Dictionary<int, string> ReadTranslatedFile()
     {
         string text = File.ReadAllText(_translatedFileTemplate);
-        string[] translatedLines = text.Split(Environment.NewLine);
+        string[] translatedLines = GetFileSplitLines(text);
 
         // 记录行号和行内容，每两行为一组，第一行为行号，第二行为行内容
         var translatedLineInfos = new Dictionary<int, string>();
@@ -113,7 +112,7 @@ public class FileHandler
     public string RewriteSourceFileForTranslated(Dictionary<int, string> translatedLineInfos)
     {
         string text = File.ReadAllText(_sourceFilePath);
-        string[] sourceLines = text.Split(Environment.NewLine);
+        string[] sourceLines = GetFileSplitLines(text);
 
         // 按照翻译行信息找到源文件中文行，替换为翻译后的文本
         translatedLineInfos.ToList().ForEach(translatedLineInfo =>
@@ -124,5 +123,19 @@ public class FileHandler
         // 重写为新文件
         File.WriteAllText(_translatedFilePath, string.Join(Environment.NewLine, sourceLines));
         return _translatedFilePath;
+    }
+
+    /// <summary>
+    /// 获取文件的行内容数组
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
+    private static string[] GetFileSplitLines(string text)
+    {
+        string[] sourceLines1 = text.Split(Environment.NewLine);
+        string[] sourceLines2 = text.Split("\n");
+        // 比较哪种分隔符分割的行数最多，选择最多的那种
+        string[] sourceLines = sourceLines1.Length > sourceLines2.Length ? sourceLines1 : sourceLines2;
+        return sourceLines;
     }
 }
