@@ -12,9 +12,12 @@
 
 #endregion <<版权版本注释>>
 
+using DocumentTranslator.Translators;
+using System.Text;
+using System.Text.RegularExpressions;
 using XiHan.Framework.Utils.System;
 
-namespace DocumentTranslator;
+namespace DocumentTranslator.Handlers;
 
 /// <summary>
 /// 翻译处理器
@@ -35,10 +38,11 @@ public class TranslatHandler
     /// 翻译中文行
     /// </summary>
     /// <returns></returns>
-    public Dictionary<int, string> TranslateChineseLines()
+    public async Task<Dictionary<int, string>> TranslateChineseLines()
     {
         var translatedLineInfos = new Dictionary<int, string>();
         var chineseLines = File.ReadAllLines(_chineseFilePath);
+
         ConsoleHelper.Info($"需要翻译{chineseLines.Length / 2}行中文行，进度：");
         // 中文行文件为行号和行内容各占一行
         for (var i = 0; i < chineseLines.Length; i += 2)
@@ -46,7 +50,7 @@ public class TranslatHandler
             var lineNo = int.Parse(chineseLines[i]);
             var lineContent = chineseLines[i + 1];
             // 翻译中文行
-            var translatedLine = Translate(lineNo, lineContent);
+            var translatedLine = await Translate(lineNo, lineContent);
             translatedLineInfos.Add(lineNo, translatedLine);
 
             // 计算进度百分比
@@ -61,15 +65,14 @@ public class TranslatHandler
     /// </summary>
     /// <param name="lineContent"></param>
     /// <returns></returns>
-    private string Translate(int lineNo, string lineContent)
+    private async Task<string> Translate(int lineNo, string lineContent)
     {
         // 翻译中文行
         var translatedLine = string.Empty;
         try
         {
-            // TODO: 对接翻译
-            //var translator = new GoogleTranslator();
-            //translatedLine = translator.Translate(lineContent, "zh", "en");
+            var translator = new GoogleTranslator();
+            translatedLine = await translator.Translate(lineContent, "zh-CN", "en");
         }
         catch (Exception ex)
         {

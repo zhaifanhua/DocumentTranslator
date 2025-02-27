@@ -1,7 +1,7 @@
-﻿using DocumentTranslator;
+﻿using DocumentTranslator.Handlers;
 using XiHan.Framework.Utils.System;
 
-ConsoleHelper.Handle("请输入需要翻译文件（中文=>英文）的路径：");
+ConsoleHelper.Handle("请输入需要翻译文件（中文=>英文）的路径(包含全路径和文件扩展名)：");
 string? sourceFilePath = Console.ReadLine();
 if (string.IsNullOrWhiteSpace(sourceFilePath))
 {
@@ -24,7 +24,7 @@ ConsoleHelper.Info($"中文行信息保存到新文件：【{chineseFilePath}】
 // 是否需要手动翻译
 var translatHandler = new TranslatHandler(chineseFilePath);
 var translatedLineInfos = new Dictionary<int, string>();
-ConsoleHelper.Handle("是否需要根据中文行信息手动翻译？【Y/N】");
+ConsoleHelper.Handle("是否需要根据中文行信息手动翻译？【手动Y/自动N】");
 string? needManualTranslate = Console.ReadLine();
 if (string.IsNullOrWhiteSpace(needManualTranslate))
 {
@@ -42,7 +42,7 @@ if (needManualTranslate.ToUpper().Equals("Y"))
 
     while (true)
     {
-        ConsoleHelper.Handle("是否已完成手动翻译？【Y/N】");
+        ConsoleHelper.Handle("是否已完成手动翻译？【完成Y/未完成N】");
         string? isFinished = Console.ReadLine();
         if (string.IsNullOrWhiteSpace(isFinished))
         {
@@ -60,7 +60,7 @@ else
 {
     // 翻译中文行
     ConsoleHelper.Handle("正在翻译中文行...");
-    translatedLineInfos = translatHandler.TranslateChineseLines();
+    translatedLineInfos = await translatHandler.TranslateChineseLines();
     ConsoleHelper.Info("中文行翻译完成！");
 }
 // 保存翻译结果

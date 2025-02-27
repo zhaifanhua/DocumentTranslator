@@ -12,11 +12,12 @@
 
 #endregion <<版权版本注释>>
 
+using DocumentTranslator.Tools;
 using System.Text;
 using System.Text.RegularExpressions;
 using XiHan.Framework.Utils.IO;
 
-namespace DocumentTranslator;
+namespace DocumentTranslator.Handlers;
 
 /// <summary>
 /// 文件处理器
@@ -35,9 +36,9 @@ public class FileHandler
     public FileHandler(string sourceFilePath)
     {
         _sourceFilePath = sourceFilePath;
-        _chineseFilePath = $"{_sourceFilePath.Replace(FileHelper.GetFileExtension(_sourceFilePath), "")}_chinese.txt";
-        _translatedFileTemplate = $"{_sourceFilePath.Replace(FileHelper.GetFileExtension(_sourceFilePath), "")}_translated_template.txt";
-        _translatedFilePath = $"{_sourceFilePath.Replace(FileHelper.GetFileExtension(_sourceFilePath), "")}_translated{FileHelper.GetFileExtension(_sourceFilePath)}";
+        _chineseFilePath = $"{_sourceFilePath.Replace(FileHelper.GetExtension(_sourceFilePath), "")}_chinese.txt";
+        _translatedFileTemplate = $"{_sourceFilePath.Replace(FileHelper.GetExtension(_sourceFilePath), "")}_translated_template.txt";
+        _translatedFilePath = $"{_sourceFilePath.Replace(FileHelper.GetExtension(_sourceFilePath), "")}_translated{FileHelper.GetExtension(_sourceFilePath)}";
     }
 
     /// <summary>
@@ -55,7 +56,9 @@ public class FileHandler
         {
             if (Regex.IsMatch(sourceLines[i], @"[\u4e00-\u9fa5]"))
             {
-                sourceChineseLines.Add(i, sourceLines[i]);
+                // 替换特殊字符
+                sourceLines[i] = ReplaceHelper.ReplaceSpecialChar(sourceLines[i]);
+                sourceChineseLines.Add(i, @$"{sourceLines[i]}");
             }
         }
 
@@ -117,7 +120,9 @@ public class FileHandler
         // 按照翻译行信息找到源文件中文行，替换为翻译后的文本
         translatedLineInfos.ToList().ForEach(translatedLineInfo =>
         {
-            sourceLines[translatedLineInfo.Key] = translatedLineInfo.Value;
+            // 替换特殊字符
+            var line = ReplaceHelper.ReplaceSpecialCharBack(translatedLineInfo.Value);
+            sourceLines[translatedLineInfo.Key] = line;
         });
 
         // 重写为新文件
