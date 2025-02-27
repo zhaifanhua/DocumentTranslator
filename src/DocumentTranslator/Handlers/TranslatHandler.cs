@@ -13,8 +13,6 @@
 #endregion <<版权版本注释>>
 
 using DocumentTranslator.Translators;
-using System.Text;
-using System.Text.RegularExpressions;
 using XiHan.Framework.Utils.System;
 
 namespace DocumentTranslator.Handlers;
