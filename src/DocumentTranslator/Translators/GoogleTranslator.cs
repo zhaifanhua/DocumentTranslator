@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
-using XiHan.Framework.Utils.Http;
+using XiHan.Framework.Utils.Net.Http;
 
 namespace DocumentTranslator.Translators;
 
@@ -24,7 +24,7 @@ public class GoogleTranslator
         try
         {
             // 读取响应内容
-            var rawData = await HttpHelper.GetAsync<string>(url, null);
+            var rawData = await HttpClientHelper.GetAsync<string>(url, null);
             if (string.IsNullOrWhiteSpace(rawData))
             {
                 throw new Exception("翻译失败！");

@@ -14,7 +14,8 @@ public static class ReplaceHelper
             .Replace(@"\t", "`t")
             .Replace(@"\r", "`r")
             .Replace(@"#", "`f")
-            .Replace("\t", "`k");
+            .Replace("\t", "`k")
+            .Replace("\"", "'");
     }
 
     /// <summary>
