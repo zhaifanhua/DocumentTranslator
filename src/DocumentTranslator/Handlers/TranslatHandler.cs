@@ -1,21 +1,7 @@
-﻿#region <<版权版本注释>>
-
-// ----------------------------------------------------------------
-// Copyright ©2024 ZhaiFanhua All Rights Reserved.
-// Licensed under the MIT License. See LICENSE in the project root for license information.
-// FileName:TranslatHandler
-// Guid:05971664-af29-406d-8a53-0e72efae09df
-// Author:zhaifanhua
-// Email:me@zhaifanhua.com
-// CreateTime:2024/10/29 3:42:19
-// ----------------------------------------------------------------
-
-#endregion <<版权版本注释>>
-
+using DocumentTranslator.Tools;
 using DocumentTranslator.Translators;
-using System.Text;
-using System.Text.RegularExpressions;
-using XiHan.Framework.Utils.System;
+using System.Collections.Concurrent;
+using XiHan.Framework.Utils.Logging;
 
 namespace DocumentTranslator.Handlers;
 
@@ -25,6 +11,7 @@ namespace DocumentTranslator.Handlers;
 public class TranslatHandler
 {
     private readonly string _chineseFilePath;
+    private readonly GoogleTranslator _translator = new();
 
     /// <summary>
     /// 构造函数
@@ -38,26 +25,56 @@ public class TranslatHandler
     /// 翻译中文行
     /// </summary>
     /// <returns></returns>
-    public async Task<Dictionary<int, string>> TranslateChineseLines()
+    public async Task<Dictionary<int, string>> TranslateChineseLines(int? maxDegreeOfParallelism = null)
     {
-        var translatedLineInfos = new Dictionary<int, string>();
         var chineseLines = File.ReadAllLines(_chineseFilePath);
 
-        ConsoleHelper.Info($"需要翻译{chineseLines.Length / 2}行中文行，进度：");
         // 中文行文件为行号和行内容各占一行
-        for (var i = 0; i < chineseLines.Length; i += 2)
+        var linesByContent = new Dictionary<string, List<int>>(StringComparer.Ordinal);
+        for (var i = 0; i + 1 < chineseLines.Length; i += 2)
         {
-            var lineNo = int.Parse(chineseLines[i]);
+            if (!int.TryParse(chineseLines[i], out var lineNo))
+            {
+                continue;
+            }
             var lineContent = chineseLines[i + 1];
-            // 翻译中文行
-            var translatedLine = await Translate(lineNo, lineContent);
-            translatedLineInfos.Add(lineNo, translatedLine);
-
-            // 计算进度百分比
-            double progress = (i + 1) / (double)chineseLines.Length * 100;
-            ConsoleHelper.Handle($"{progress:F2}%");
+            if (!linesByContent.TryGetValue(lineContent, out var lineNos))
+            {
+                lineNos = [];
+                linesByContent[lineContent] = lineNos;
+            }
+            lineNos.Add(lineNo);
         }
-        return translatedLineInfos;
+
+        var totalLines = linesByContent.Sum(item => item.Value.Count);
+        if (totalLines == 0)
+        {
+            LogHelper.Info("未发现需要翻译的中文行。");
+            return new Dictionary<int, string>();
+        }
+        var maxDegree = Math.Clamp(maxDegreeOfParallelism ?? Environment.ProcessorCount, 2, 8);
+        LogHelper.Info($"需要翻译{totalLines}行中文行，使用并发数：{maxDegree}");
+
+        var translatedLineInfos = new ConcurrentDictionary<int, string>();
+        using var progressBar = new ConsoleProgressBar(totalLines);
+
+        var options = new ParallelOptions { MaxDegreeOfParallelism = maxDegree };
+        await Parallel.ForEachAsync(linesByContent, options, async (item, _) =>
+        {
+            var lineContent = item.Key;
+            var lineNos = item.Value;
+            var translatedLine = string.IsNullOrWhiteSpace(lineContent)
+                ? string.Empty
+                : await Translate(lineNos[0], lineContent);
+
+            foreach (var lineNo in lineNos)
+            {
+                translatedLineInfos[lineNo] = translatedLine;
+            }
+            progressBar.Increment(lineNos.Count);
+        });
+
+        return translatedLineInfos.ToDictionary(item => item.Key, item => item.Value);
     }
 
     /// <summary>
@@ -71,12 +88,11 @@ public class TranslatHandler
         var translatedLine = string.Empty;
         try
         {
-            var translator = new GoogleTranslator();
-            translatedLine = await translator.Translate(lineContent, "zh-CN", "en");
+            translatedLine = await _translator.Translate(lineContent, "zh-CN", "en");
         }
         catch (Exception ex)
         {
-            ConsoleHelper.Warning($"翻译中文行失败，源文件行号：{lineNo}，源文件行内容：{lineContent}，异常：{ex.Message}");
+            LogHelper.Warn($"翻译中文行失败，源文件行号：{lineNo}，源文件行内容：{lineContent}，异常：{ex.Message}");
         }
         return translatedLine;
     }
