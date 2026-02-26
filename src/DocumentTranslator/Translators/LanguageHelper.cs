@@ -1,17 +1,3 @@
-#region <<版权版本注释>>
-
-// ----------------------------------------------------------------
-// Copyright ©2024 ZhaiFanhua All Rights Reserved.
-// Licensed under the MIT License. See LICENSE in the project root for license information.
-// FileName:LanguageHelper
-// Guid:a1b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d
-// Author:zhaifanhua
-// Email:me@zhaifanhua.com
-// CreateTime:2024/10/29 10:00:00
-// ----------------------------------------------------------------
-
-#endregion <<版权版本注释>>
-
 namespace DocumentTranslator.Translators;
 
 /// <summary>
@@ -53,8 +39,8 @@ public static class LanguageHelper
     /// <returns>语言显示名称</returns>
     public static string GetLanguageDisplayName(string langCode)
     {
-        return SupportedLanguages.TryGetValue(langCode, out var name) 
-            ? $"{name} ({langCode})" 
+        return SupportedLanguages.TryGetValue(langCode, out var name)
+            ? $"{name} ({langCode})"
             : langCode;
     }
 
@@ -75,7 +61,7 @@ public static class LanguageHelper
     public static string? DetectLanguageFromFilename(string filename)
     {
         var lowerName = filename.ToLowerInvariant();
-        
+
         if (lowerName.Contains("_zh") || lowerName.Contains("中文"))
             return "zh-CN";
         if (lowerName.Contains("_en") || lowerName.Contains("english"))
@@ -84,8 +70,7 @@ public static class LanguageHelper
             return "ja";
         if (lowerName.Contains("_ko") || lowerName.Contains("韩语"))
             return "ko";
-        
+
         return null; // 无法从文件名判断
     }
 }
-
