@@ -1,17 +1,3 @@
-﻿#region <<版权版本注释>>
-
-// ----------------------------------------------------------------
-// Copyright ©2024 ZhaiFanhua All Rights Reserved.
-// Licensed under the MIT License. See LICENSE in the project root for license information.
-// FileName:FileHandler
-// Guid:4886d858-7551-49c3-9b02-42984b881115
-// Author:zhaifanhua
-// Email:me@zhaifanhua.com
-// CreateTime:2024/10/29 3:00:32
-// ----------------------------------------------------------------
-
-#endregion <<版权版本注释>>
-
 using DocumentTranslator.Tools;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -28,6 +14,7 @@ public class FileHandler
     private readonly string _chineseFilePath;
     private readonly string _translatedFileTemplate;
     private readonly string _translatedFilePath;
+    private static readonly Regex ChineseRegex = new(@"[\u4e00-\u9fa5]", RegexOptions.Compiled);
 
     /// <summary>
     /// 构造函数
@@ -50,27 +37,20 @@ public class FileHandler
     {
         string text = File.ReadAllText(_sourceFilePath);
         string[] sourceLines = GetFileSplitLines(text);
-        // 记录行号和行内容
-        var sourceChineseLines = new Dictionary<int, string>();
-        for (int i = 0; i < sourceLines.Length; i++)
-        {
-            if (Regex.IsMatch(sourceLines[i], @"[\u4e00-\u9fa5]"))
-            {
-                // 替换特殊字符
-                sourceLines[i] = ReplaceHelper.ReplaceSpecialChar(sourceLines[i]);
-                sourceChineseLines.Add(i, @$"{sourceLines[i]}");
-            }
-        }
-
-        var sb = new StringBuilder();
-        foreach (var (lineNumber, lineContent) in sourceChineseLines)
-        {
-            sb.AppendLine($"{lineNumber}{Environment.NewLine}{lineContent}");
-        }
-        var fileStr = sb.ToString();
 
         // 按源文件路径和名称，保存到新文件，文件名后缀为.chinese.txt，返回新文件路径
-        File.WriteAllText(_chineseFilePath, fileStr);
+        using var writer = new StreamWriter(_chineseFilePath, false, new UTF8Encoding(false));
+        for (int i = 0; i < sourceLines.Length; i++)
+        {
+            if (!ChineseRegex.IsMatch(sourceLines[i]))
+            {
+                continue;
+            }
+            // 替换特殊字符
+            var line = ReplaceHelper.ReplaceSpecialChar(sourceLines[i]);
+            writer.WriteLine(i);
+            writer.WriteLine(line);
+        }
         return _chineseFilePath;
     }
 
@@ -137,10 +117,13 @@ public class FileHandler
     /// <returns></returns>
     private static string[] GetFileSplitLines(string text)
     {
-        string[] sourceLines1 = text.Split(Environment.NewLine);
-        string[] sourceLines2 = text.Split("\n");
-        // 比较哪种分隔符分割的行数最多，选择最多的那种
-        string[] sourceLines = sourceLines1.Length > sourceLines2.Length ? sourceLines1 : sourceLines2;
-        return sourceLines;
+        if (string.IsNullOrEmpty(text))
+        {
+            return [];
+        }
+
+        // 统一行分隔符，避免残留 \r 导致空行
+        var normalized = text.Replace("\r\n", "\n").Replace("\r", "\n");
+        return normalized.Split('\n');
     }
 }
